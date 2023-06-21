@@ -34,4 +34,14 @@ stack_t *freeStack(stack_t *stack);
 
 void printStack(const stack_t *const stack);
 
+bool isFull(const stack_t *const stack);
+
+bool isEmpty(const stack_t *const stack);
+
+value_type_t top(const stack_t *const stack);
+
+void push(stack_t *const stack, const value_type_t value);
+
+value_type_t pop(stack_t *const stack);
+
 #endif // STACK_H
