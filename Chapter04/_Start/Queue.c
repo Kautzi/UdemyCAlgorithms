@@ -1,65 +1,124 @@
-#include <stdio.h>
-#include <stdlib.h>
-
+#include <stdio.h> //printf...
+#include <stdlib.h>//malloc...
+#include <assert.h>
 #include "Queue.h"
+
+#define ASSERT_AREA
 
 queue_t *createQueue(const uint32_t capacity)
 {
-    queue_t *queue = (queue_t *)malloc(sizeof(queue_t));
 
-    if (NULL == queue)
+    queue_t *FIFO = (queue_t*)malloc(sizeof(queue_t));
+
+    if(FIFO == NULL)
     {
         return NULL;
+            #ifdef ASSERT_AREA
+                assert(FIFO != NULL);
+            #endif
     }
 
-    const size_t data_size = capacity * sizeof(value_type_t);
-    value_type_t *data = (value_type_t *)malloc(data_size);
-
-    if (NULL == data)
+    value_type_t *data = (value_type_t*)malloc(sizeof(value_type_t)*capacity);
+    if(data == NULL)
     {
-        free(queue);
-
+        free(FIFO);
         return NULL;
+            #ifdef ASSERT_AREA
+                assert(data != NULL);
+            #endif
     }
 
-    queue->size = 0U;
-    queue->capacity = capacity;
-    queue->data = data;
+    FIFO->data=data;
+    FIFO->size=0u;
+    FIFO->capacity=capacity;
+    FIFO->front_idx=0u;
+    FIFO->back_idx=0u;
 
-    return queue;
+    return FIFO;
+
 }
 
 queue_t *freeQueue(queue_t *queue)
 {
-    if (NULL == queue)
+
+    if(queue == NULL)
     {
         return NULL;
     }
 
-    if (NULL != queue->data)
-    {
-        free(queue->data);
-    }
-
+    free(queue->data);
+    queue->data=NULL;
     free(queue);
-
     return NULL;
+
+
+
 }
 
 void printQueue(const queue_t *const queue)
 {
-    if (NULL == queue)
-    {
-        return;
-    }
+
+
+
+
 }
 
 bool isFull(const queue_t *const queue)
 {
+
+    if(queue == NULL)
+    {
+        return false;
+    }
+
     return queue->size >= queue->capacity;
+
+
+
 }
 
 bool isEmpty(const queue_t *const queue)
 {
-    return queue->size == 0u;
+
+if(queue == NULL)
+    {
+        return false;
+    }
+
+    return queue->size == 0U;
+
+
+
+}
+
+void push(queue_t *const queue, const value_type_t value)
+{
+
+
+
+
+}
+
+value_type_t pop(queue_t *const queue)
+{
+
+
+
+
+}
+
+value_type_t front(queue_t *const queue)
+{
+
+
+
+
+}
+
+value_type_t back(queue_t *const queue)
+{
+
+
+
+
 }

@@ -18,6 +18,12 @@ typedef float value_type_t;
 
 typedef struct queue
 {
+    uint32_t front_idx;
+    uint32_t back_idx;
+    value_type_t *data;
+    uint32_t size;
+    uint32_t capacity;
+
 } queue_t;
 
 /**********************/
@@ -38,4 +44,7 @@ void push(queue_t *const queue, const value_type_t value);
 
 value_type_t pop(queue_t *const queue);
 
+value_type_t front(queue_t *const queue);
+
+value_type_t back(queue_t *const queue);
 #endif // QUEUE_H
