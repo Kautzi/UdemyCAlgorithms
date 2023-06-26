@@ -109,6 +109,47 @@ void push(queue_t *const queue, const value_type_t value)
         return;
     }
 
+    /*Description of Modulo oparation:
+    first things first the modulo operation is for craeting a ring operation
+    so that you never leave the range of the array with capacity
+
+    Start condition:
+
+    capacity = 3;
+
+    Array is empty _ _ _
+                                    Fi & Li
+    push(1);                ->      1   _   _
+
+                                    Fi  Bi
+    push(2);                ->      1   2   _
+
+                                    Fi      Bi
+    push(3);                ->      1   2   3
+
+    now the array is full
+                                    ->  Fi  Bi
+    pop();                  ->      _   2   3
+
+                                    Bi  Fi  ->
+    push(-1);               ->      -1  2   3       back_idx = 2 -> 2+1 = 3 mod 3 = 0 next back_idx = 0
+
+                                    Bi  ->  Fi
+    pop();                  ->      -1  _   3
+
+                                    ->  Bi  Fi
+    push(-4);               ->      -1  -4  3
+
+                                    Fi  Bi  ->
+    pop();                  ->      -1  Bi  _       fornt_ids = 2 -> 2+1 = 3 mod 3 = 0 next front_idx = 0
+
+    The modulo operation is perfect for ring iteration
+
+
+
+
+
+    */
     if(queue->size > 0)
     {
     queue->back_idx = (queue->back_idx +1U) % queue->capacity;
