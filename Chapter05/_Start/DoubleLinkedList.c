@@ -109,13 +109,13 @@ void pushBack(list_t * list, node_t * node)
     }
 
     //if list is empty initialise
-    if(list->size = 0u)
+    if(list->size == 0u)
     {
         node->next=NULL;
         node->prev=NULL;
         list->back = node;
         list->front = node;
-        list->size = 1u;
+
     }
 
     node->next = NULL;
@@ -155,7 +155,7 @@ value_type_t popBack(list_t *list)
     else
     {
         list->back = NULL;    // and set the back element next adress to NULL
-        list->back = NULL;
+        list->front = NULL;
 
     }
     // after doing the poping of the last element we have to
@@ -173,7 +173,23 @@ void pushFront(list_t * list, node_t *node)
         return;
     }
 
+    if(list->size > 0u)
+    {
+        list->front->prev = node;
+        node->next = list->front;
+        list->front = node;
+        node->prev = NULL;
+    }
 
+    else
+    {
+        list->back = node;    // and set the back element next adress to NULL
+        list->front = node;
+        node->next=NULL;
+        node->prev=NULL;
+
+    }
+    list->size++;
 
 }
 
@@ -184,7 +200,24 @@ value_type_t popFront(list_t *list)
         return NO_VALUE;
     }
 
+    node_t * temp = list->front;
+    value_type_t value = *(temp->value);
 
+    if(list->size > 1u)
+    {
+    list->front = list->front->next;
+    list->front->prev=NULL;
+    }
+    else
+    {
+        list->back=NULL;
+        list->front=NULL;
+    }
+
+    freeNode(temp);
+    list->size--;
+
+    return value;
 
 }
 
@@ -198,5 +231,14 @@ void printList(const list_t * const list)
 
     printf("List contains %u elements.\n",list->size);
 
+    //now print all elements
+
+    node_t* print_value = list->front;
+
+    for(uint32_t i = 0; i < list->size;i++)
+    {
+        printf("%f, \n",*(print_value->value));
+        print_value = print_value->next;
+    }
 
 }
