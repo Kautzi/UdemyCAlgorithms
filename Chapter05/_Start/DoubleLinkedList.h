@@ -65,6 +65,14 @@ list_t *createList(void);
 
 list_t *freeList(list_t *list);
 
+void pushBack(list_t * list, node_t * node);
+
+value_type_t popBack(list_t *list);
+
+void pushFront(list_t * list, node_t *node);
+
+value_type_t popFront(list_t *list);
+
 void printList(const list_t * const list);
 
 

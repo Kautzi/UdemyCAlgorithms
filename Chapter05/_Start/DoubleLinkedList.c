@@ -101,6 +101,93 @@ list_t *freeList(list_t *list)
 
 }
 
+void pushBack(list_t * list, node_t * node)
+{
+    if(list == NULL || node == NULL)
+    {
+        return;
+    }
+
+    //if list is empty initialise
+    if(list->size = 0u)
+    {
+        node->next=NULL;
+        node->prev=NULL;
+        list->back = node;
+        list->front = node;
+        list->size = 1u;
+    }
+
+    node->next = NULL;
+    list->back->next = node; //first give the actual back element with next == NULL the adress of node
+    node->prev = list->back; // then give node the prev adress of the actual back element
+
+    list->back = node;      // now set node as the last element
+
+    list->size++;           // and increment the list size
+
+
+return;
+}
+
+value_type_t popBack(list_t *list)
+{
+    if(list == NULL)
+    {
+        return NO_VALUE;
+    }
+
+    value_type_t value = *(list->back->value); // tempararily save the value of the
+    //back element cause this element is deleted after the next code rows
+
+    // temporarily safe the adress of the actual back element only for deletion
+
+    node_t* temp_back = list->back;
+
+
+    if(list->size > 1u)
+    {
+        list->back = list->back->prev; //tell the list that the previes value of the back element is now the back element
+        list->back->next = NULL;    // and set the back element next adress to NULL
+
+    }
+
+    else
+    {
+        list->back = NULL;    // and set the back element next adress to NULL
+        list->back = NULL;
+
+    }
+    // after doing the poping of the last element we have to
+    //delete the previes last element because the memory is allocated yet
+    list->size--;
+    freeNode(temp_back);
+
+    return value;
+}
+
+void pushFront(list_t * list, node_t *node)
+{
+    if(list == NULL || node == NULL)
+    {
+        return;
+    }
+
+
+
+}
+
+value_type_t popFront(list_t *list)
+{
+    if(list == NULL)
+    {
+        return NO_VALUE;
+    }
+
+
+
+}
+
 void printList(const list_t * const list)
 {
 
