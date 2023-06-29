@@ -193,6 +193,116 @@ void pushFront(list_t * list, node_t *node)
 
 }
 
+node_t * search_idx(list_t* list, uint32_t idx)
+{
+
+    if(list == NULL || idx > list->size)
+    {
+        return NULL;
+    }
+
+    //future solution to accelerate the search determine
+    //if search begins from back or front
+
+    //*code*
+
+    node_t *search_node = list->front;
+
+    for(uint32_t i = 1; i <= idx;i++)
+    {
+        search_node = search_node->next;
+    }
+return search_node;
+
+}
+
+value_type_t popNode(list_t *list,uint32_t idx)
+{
+
+    if(list == NULL || (list->size == 0u) || (idx > list->size))
+    {
+        return NO_VALUE;
+    }
+value_type_t value = 0.0f;
+
+    if(idx == 0)
+    {
+        value = popFront(list);
+    }
+    else if (idx == (list->size - 1))
+    {
+        value = popBack(list);
+    }
+    else
+    {
+    node_t * node= search_idx(list,idx);
+
+    value = *(node->value);
+
+    node->prev->next = node->next;
+
+    node->next->prev = node->prev;
+
+    freeNode(node);
+
+    list->size--;
+    }
+    return value;
+}
+
+void pushNode(list_t *list, node_t *node,uint32_t idx)
+{
+
+    if(list == NULL || node == NULL || (idx > list->size))
+    {
+        return;
+    }
+
+
+    if(idx == 0)
+    {
+        pushFront(list,node);
+    }
+    else if(idx == (list->size ))
+    {
+        pushBack(list,node);
+    }
+    else{
+    node_t *idx_node = search_idx(list,idx);
+
+    node->next = idx_node;
+
+    node->prev = idx_node->prev;
+
+    node->prev->next = node;
+
+    idx_node->prev = node;
+/*
+    node->next = idx_node->next;
+
+    node->prev = idx_node;
+
+    idx_node->next= node;
+
+    node->next->prev=node;
+*/
+    list->size++;
+    }
+    return;
+}
+
+value_type_t valueAtIdx(list_t *list, uint32_t idx)
+{
+
+    if(list == NULL)
+    {
+        return NO_VALUE;
+    }
+
+    return *(search_idx(list,idx)->value);
+}
+
+
 value_type_t popFront(list_t *list)
 {
     if(list == NULL)
