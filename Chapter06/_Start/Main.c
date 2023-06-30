@@ -1,78 +1,50 @@
-#include <assert.h>
 #include <stdio.h>
+#include <assert.h>
 #include <string.h>
 
-#include "HashTable.h"
+#define TABLE_ZIZE (uint32_t)13u
+#define MAX_NAME_SIZE (uint32_t)256u
 
-int main()
+uint32_t hash(char key[MAX_NAME_SIZE])
 {
-    hash_table_t *hash_table = createHashTable();
 
-    item_t item_jan = {.key = "Jan", .value = 26.0f};
-    item_t item_maxi = {.key = "Maxi", .value = 27.0f};
-    item_t item_lena = {.key = "Lena", .value = 21.0f};
-    item_t item_peter = {.key = "Peter", .value = 42.0f};
-    item_t item_lara = {.key = "Lara", .value = 31.0f};
+    uint32_t hash_value = 0u;
 
-    printf("Key: %s, Idx: %u\n", item_jan.key, hash(item_jan.key));
-    printf("Key: %s, Idx: %u\n", item_maxi.key, hash(item_maxi.key));
-    printf("Key: %s, Idx: %u\n", item_lena.key, hash(item_lena.key));
-    printf("Key: %s, Idx: %u\n", item_peter.key, hash(item_peter.key));
-    printf("Key: %s, Idx: %u\n", item_lara.key, hash(item_lara.key));
+    for(uint32_t i = 0; i < MAX_NAME_SIZE;i++)
+    {
 
-    insertItem(hash_table, &item_jan);
-    insertItem(hash_table, &item_maxi);
-    insertItem(hash_table, &item_lena);
-    insertItem(hash_table, &item_peter);
-    insertItem(hash_table, &item_lara);
+        if('\0' != key[i])
+        {
+            hash_value = (hash_value * 128 + key[i]) % TABLE_ZIZE;
 
-    printHashTable(hash_table);
 
-    assert(0 == strncmp("Jan", hash_table->data[4].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Maxi", hash_table->data[1].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Lara", hash_table->data[0].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Peter", hash_table->data[3].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Lena", hash_table->data[11].key, MAX_NAME_SIZE));
+        }
+        else
+        {
 
-    item_t item_jan_duplicate = {.key = "Jan", .value = -26.0f};
-    insertItem(hash_table, &item_jan_duplicate);
-    const value_type_t new_value_jan = getValue(hash_table, item_jan.key);
-    assert(-26.0f == new_value_jan);
+            break;
 
-    printHashTable(hash_table);
+        }
+    }
+    return hash_value;
 
-    assert(0 == strncmp("Jan", hash_table->data[4].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Maxi", hash_table->data[1].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Lara", hash_table->data[0].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Peter", hash_table->data[3].key, MAX_NAME_SIZE));
-    assert(0 == strncmp("Lena", hash_table->data[11].key, MAX_NAME_SIZE));
+}
 
-    const value_type_t value_jan = removeItem(hash_table, item_jan.key);
-    const value_type_t value_maxi = removeItem(hash_table, item_maxi.key);
-    const value_type_t value_lena = removeItem(hash_table, item_lena.key);
-    const value_type_t value_peter = removeItem(hash_table, item_peter.key);
-    const value_type_t value_lara = removeItem(hash_table, item_lara.key);
 
-    assert(-26.0f == value_jan);
-    assert(27.0f == value_maxi);
-    assert(21.0f == value_lena);
-    assert(42.0f == value_peter);
-    assert(31.0f == value_lara);
+int main(void)
+{
 
-    assert(0 == strncmp(DELETED_KEY, hash_table->data[0].key, MAX_NAME_SIZE));
-    assert(0 == strncmp(DELETED_KEY, hash_table->data[1].key, MAX_NAME_SIZE));
-    assert(0 == strncmp(DELETED_KEY, hash_table->data[2].key, MAX_NAME_SIZE));
-    assert(0 == strncmp(DELETED_KEY, hash_table->data[3].key, MAX_NAME_SIZE));
-    assert(0 == strncmp(DELETED_KEY, hash_table->data[4].key, MAX_NAME_SIZE));
+    char name1[]= "Jan";
+    char name2[]= "Maxi";
+    char name3[]= "Lena";
+    char name4[]= "Peter";
+    char name5[]= "Lara";
 
-    assert(NO_VALUE == hash_table->data[0].value);
-    assert(NO_VALUE == hash_table->data[1].value);
-    assert(NO_VALUE == hash_table->data[2].value);
-    assert(NO_VALUE == hash_table->data[3].value);
-    assert(NO_VALUE == hash_table->data[4].value);
+    printf("Key: %s, Idx: %u\n",name1,hash(name1));
+    printf("Key: %s, Idx: %u\n",name2,hash(name2));
+    printf("Key: %s, Idx: %u\n",name3,hash(name3));
+    printf("Key: %s, Idx: %u\n",name4,hash(name4));
+    printf("Key: %s, Idx: %u\n",name5,hash(name5));
 
-    printHashTable(hash_table);
-
-    hash_table = freeHashTable(hash_table);
-    assert(NULL == hash_table);
+    return 0;
 }
