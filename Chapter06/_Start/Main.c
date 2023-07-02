@@ -2,33 +2,9 @@
 #include <assert.h>
 #include <string.h>
 
-#define TABLE_ZIZE (uint32_t)13u
-#define MAX_NAME_SIZE (uint32_t)256u
-
-uint32_t hash(char key[MAX_NAME_SIZE])
-{
-
-    uint32_t hash_value = 0u;
-
-    for(uint32_t i = 0; i < MAX_NAME_SIZE;i++)
-    {
-
-        if('\0' != key[i])
-        {
-            hash_value = (hash_value * 128 + key[i]) % TABLE_ZIZE;
+#include "HashTable.h"
 
 
-        }
-        else
-        {
-
-            break;
-
-        }
-    }
-    return hash_value;
-
-}
 
 
 int main(void)
