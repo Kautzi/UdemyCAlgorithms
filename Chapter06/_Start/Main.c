@@ -9,6 +9,7 @@
 
 int main(void)
 {
+    hash_table_t *hash_table = createHashtable();
 
     char name1[]= "Jan";
     char name2[]= "Maxi";
@@ -21,6 +22,9 @@ int main(void)
     printf("Key: %s, Idx: %u\n",name3,hash(name3));
     printf("Key: %s, Idx: %u\n",name4,hash(name4));
     printf("Key: %s, Idx: %u\n",name5,hash(name5));
+
+    freeHashtable(hash_table);
+    assert(NULL == hash_table);
 
     return 0;
 }
