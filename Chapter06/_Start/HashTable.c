@@ -26,7 +26,7 @@ typedef struct hasht_abel
 }hash_table_t;
 */
 
-uint32_t hash(const char key[MAX_NAME_SIZE])
+uint32_t hash( char key[MAX_NAME_SIZE])
 {
     uint32_t hash_value = 0u;
 
@@ -45,7 +45,7 @@ uint32_t hash(const char key[MAX_NAME_SIZE])
     return hash_value;
 }
 
-hash_table_t* createHashtable(void)
+hash_table_t* createHashTable(void)
 {
 
 
@@ -83,7 +83,7 @@ hash_table_t* createHashtable(void)
 
 }
 
-void freeHashtable(hash_table_t* hashtable)
+void freeHashTable(hash_table_t* hashtable)
 {
     if(hashtable == NULL)
     {
@@ -161,18 +161,26 @@ return;
 
 value_type_t getValue(hash_table_t *hash_table,char key[MAX_NAME_SIZE])
 {
-    for(uint32_t i = 0; i < TABLE_SIZE; i ++)
+    if(hash_table == NULL || 0u == hash_table->size)
     {
-        if(0 == strncmp(hash_table->data[i].key,key,MAX_NAME_SIZE))
-        {
-            return hash_table->data[i].value;
-        }
+        return NO_VALUE;
+    }
 
+    uint32_t hash_value = hash(key);
+    item_t * item = &hash_table->data[hash_value];
+
+    //int32_t compare = strncmp(hash_table->data[hash_value].key,key,MAX_NAME_SIZE);
+
+    while(0u != strncmp(item->key,key,MAX_NAME_SIZE))
+    {
+
+        hash_value = (hash_value +1u) % TABLE_SIZE;
+        item = &hash_table->data[hash_value];
 
     }
 
-
-return NO_VALUE;
+    value_type_t value = item->value;
+    return value;
 }
 
 value_type_t removeItem(hash_table_t *hash_table,char key[MAX_NAME_SIZE])
@@ -186,7 +194,7 @@ value_type_t removeItem(hash_table_t *hash_table,char key[MAX_NAME_SIZE])
     uint32_t hash_value = hash(key);
     item_t * item = &hash_table->data[hash_value];
 
-    int32_t compare = strncmp(hash_table->data[hash_value].key,key,MAX_NAME_SIZE);
+    //int32_t compare = strncmp(hash_table->data[hash_value].key,key,MAX_NAME_SIZE);
 
     while(0u != strncmp(item->key,key,MAX_NAME_SIZE))
     {

@@ -39,11 +39,11 @@ typedef struct hasht_abel
 
 //### Function Declaration ###
 
-uint32_t hash(const char key[MAX_NAME_SIZE]);
+uint32_t hash(char key[MAX_NAME_SIZE]);
 
-hash_table_t* createHashtable(void);
+hash_table_t* createHashTable(void);
 
-void freeHashtable(hash_table_t* hashtable);
+void freeHashTable(hash_table_t* hashtable);
 
 void insertItem(hash_table_t *hash_table,item_t* item);
 
