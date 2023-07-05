@@ -33,4 +33,10 @@ node_t *freeBST(node_t *node);
 
 void printBST(const node_t *const node);
 
+void insertNode(node_t *root, node_t* node);
+
+node_t *minValueNode(node_t* node);
+
+node_t *removeNode(node_t* root, value_type_t value);
+
 #endif // BINARY_SEARCH_TREE_H
