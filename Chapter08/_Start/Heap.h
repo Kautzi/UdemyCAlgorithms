@@ -31,6 +31,16 @@ heap_t *createHeap(const uint32_t capacity);
 
 heap_t *freeHeap(heap_t *heap);
 
+uint32_t parentNode(uint32_t idx);
+
+uint32_t leftChildNode(uint32_t idx);
+
+uint32_t rightChildNode(uint32_t idx);
+
+void insertValue(heap_t* heap, value_type_t value);
+
+void swap(value_type_t* a,value_type_t* b);
+
 void printHeap(const heap_t *const heap);
 
 #endif // HEAP_H
