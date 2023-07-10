@@ -5,8 +5,8 @@
 
 int main(void)
 {
-    const uint32_t capacity = 10u;
-    heap_t *heap = createHeap(capacity);
+    //const uint32_t capacity = 10u;
+    heap_t *heap = createHeap();
 
     insertValue(heap, 42.0f);
     insertValue(heap, 22.0f);

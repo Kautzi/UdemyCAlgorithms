@@ -15,6 +15,7 @@
 
 typedef float value_type_t;
 #define NO_VALUE (value_type_t)(INFINITY)
+#define DEFAULT_CAPACITIY ((size_t) 10);
 
 typedef struct heap
 {
@@ -27,7 +28,7 @@ typedef struct heap
 /*     FUNCTIONS      */
 /**********************/
 
-heap_t *createHeap(const uint32_t capacity);
+heap_t *createHeap(void);
 
 heap_t *freeHeap(heap_t *heap);
 
@@ -40,6 +41,10 @@ uint32_t rightChildNode(uint32_t idx);
 void insertValue(heap_t* heap, value_type_t value);
 
 void swap(value_type_t* a,value_type_t* b);
+
+value_type_t removeMinimum(heap_t* heap);
+
+void heapify(heap_t* heap, uint32_t idx);
 
 void printHeap(const heap_t *const heap);
 
