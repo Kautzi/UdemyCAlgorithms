@@ -45,6 +45,8 @@ graph_t *createGraph(const uint32_t num_verticies, const uint32_t num_edges);
 
 graph_t *freeGraph(graph_t *graph);
 
+void addEdged(graph_t* graph,edge_t edges[]);
+
 void printGraph(const graph_t *const graph);
 
 #endif // GRAPH_H
