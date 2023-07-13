@@ -71,7 +71,41 @@ graph_t *freeGraph(graph_t *graph)
     return NULL;
 }
 
-void addEdged(graph_t* graph,edge_t edges[])
+node_t *createNode(uint32_t node_idx,
+                  value_type_t weight,
+                  node_t* previous_node )
+{
+
+
+    node_t* node = (node_t*)malloc(sizeof(node_t));
+
+    if(node== NULL)
+    {
+        return NULL;
+    }
+
+    node->next = previous_node;
+    node->weight = weight;
+    node->node_idx = node_idx;
+
+    return node;
+
+}
+
+node_t* freeNode(node_t* node)
+{
+    if(node==NULL)
+    {
+        return NULL;
+    }
+
+    free(node);
+
+    return NULL;
+
+}
+
+void addEdges(graph_t* graph,edge_t edges[])
 {
     for(uint32_t i = 0; i < graph->num_edges; i ++ )
     {
@@ -80,8 +114,9 @@ void addEdged(graph_t* graph,edge_t edges[])
         uint32_t end_node_idx = edges[i].end_node_idx;
         value_type_t weight = edges[i].weight;
 
-        node_t* new_node = createNode(end_node_idx,weight,graph->verticies[start_node_idx]);
-        graph->verticies[start_node_idx]=new_node;
+        node_t* start_node = graph->verticies[start_node_idx];
+        node_t* end_node = createNode(end_node_idx,weight,start_node);
+        graph->verticies[start_node_idx]=end_node;
 
 
 
@@ -94,5 +129,18 @@ void printGraph(const graph_t *const graph)
     if (NULL == graph)
     {
         return;
+    }
+
+    for(uint32_t i = 0; i < graph->num_verticies;i++)
+    {
+
+        printf("Vertex: %u\n", i);
+        node_t* current_node = graph->verticies[i];
+
+        while(NULL != current_node)
+        {
+            printf("(%u, %f)\n",current_node->node_idx,current_node->weight);
+            current_node = current_node->next;
+        }
     }
 }
